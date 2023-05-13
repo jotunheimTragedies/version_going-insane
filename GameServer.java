@@ -16,10 +16,16 @@ public class GameServer {
     private WriteToClient p1WriteRunnable; 
     private WriteToClient p2WriteRunnable; 
 
+    private int p1GameState; 
+    private int p2GameState; 
+
     public GameServer() {
         System.out.println("---- GAME SERVER ----");
         numPlayers = 0; 
         maxPlayers = 2; 
+
+        p1GameState = 0; 
+        p2GameState = 0;
 
         try {
             serverSocket = new ServerSocket(65000);
@@ -56,6 +62,20 @@ public class GameServer {
                     p2Socket = s; 
                     p2ReadRunnable = rfc; 
                     p2WriteRunnable = wtc; 
+
+                    p1WriteRunnable.sendStartMessage();
+                    p2WriteRunnable.sendStartMessage();
+
+                    Thread readThread1 = new Thread(p1ReadRunnable);
+                    Thread readThread2 = new Thread(p2ReadRunnable);
+                    readThread1.start();
+                    readThread2.start();
+
+                    Thread writeThread1 = new Thread(p1WriteRunnable);
+                    Thread writeThread2 = new Thread(p2WriteRunnable);
+                    writeThread1.start();
+                    writeThread2.start();
+                    
                 }
             }
 
@@ -78,7 +98,22 @@ public class GameServer {
 
         @Override
         public void run() {
+            try {
+                
+                while(true) {
+                    if(playerID == 1) {
+                        p1GameState = SReadIn.readInt();
+                        System.out.println("RFC: Player 1 Game State " + p1GameState);
+                    
+                    } else {
+                        p2GameState = SReadIn.readInt();
+                        System.out.println("RFC: Player 2 Game State " + p1GameState);
+                    }
 
+                }
+            } catch(IOException ex) {
+                System.out.println("IOException from ReadFromClient run()");
+            }
         }
     }
 
@@ -94,7 +129,37 @@ public class GameServer {
 
         @Override
         public void run() {
+            try {
 
+                while(true) {
+                    if(playerID == 1) {
+                        SWriteOut.writeInt(p2GameState);
+                        SWriteOut.flush();
+                        System.out.println("WTC: Game State " + p2GameState);
+                    
+                    } else {
+                        SWriteOut.writeInt(p1GameState);
+                        System.out.println("WTC: Game State " + p1GameState);
+                    }
+
+                    try {
+                        Thread.sleep(25); // ***
+                    } catch(InterruptedException ex) {
+                        System.out.println("InterruptedException from WriteToClient run()");
+                    }
+                }
+
+            } catch(IOException ex) {
+                System.out.println("IOException from WriteToClient run()");
+            }
+        }
+        
+        public void sendStartMessage() {
+            try {
+                SWriteOut.writeUTF("We now have 2 players. Good luck!");
+            } catch(IOException ex) {
+                System.out.println("IOException from WriteToClient sendStartMessage()");
+            }
         }
     }
 

@@ -18,8 +18,6 @@ public class Player {
     public Player() {
         System.out.println("---- CLIENT ----");
 
-
-        
         gameFrame = new GameFrame(1920, 1080);
         connectToServer();
         gameFrame.setUpGUI();
@@ -35,7 +33,7 @@ public class Player {
 
             playerID = clientIn.readInt();
             gameFrame.playerID = playerID;
-            System.out.println("Connected to server as Player# " + playerID + ".");
+            System.out.println("Connected to server as Player #" + playerID);
 
             if(playerID == 1) {
                 System.out.println("Waiting for Player #2 to connect...");
@@ -43,6 +41,7 @@ public class Player {
 
             rfsRunnable = new ReadFromServer(clientIn);
             wtsRunnable = new WriteToServer(clientOut);
+            rfsRunnable.waitForStartMessage();
             
 
         } catch(IOException ex) {
@@ -60,7 +59,35 @@ public class Player {
 
         @Override
         public void run() {
+            try {
+                
+                while(true) {
 
+                    int state = CReadIn.readInt();
+                    
+                    if(state != -1) {
+
+                        gameFrame.getGameCanvas().setCurrentState(state);
+                    }
+                }
+            } catch(IOException ex) {
+                System.out.println("IOException from ReadFromServer run()");
+            }
+        }
+
+        public void waitForStartMessage() {
+            try {
+                String startMessage = CReadIn.readUTF();
+                System.out.println("Message from server: " + startMessage);
+
+                Thread readThread = new Thread(rfsRunnable);
+                Thread writeThread = new Thread(wtsRunnable);
+                readThread.start();
+                writeThread.start();
+
+            } catch(IOException ex) {
+                System.out.println("IOException from ReadFromServer waitForStartMessage()");
+            }
         }
     }
 
@@ -74,7 +101,30 @@ public class Player {
 
         @Override
         public void run() {
+            try {
+                
+                while(true) {
+                    GameCanvas checkCanvas = gameFrame.getGameCanvas();
+                    
+                    if(checkCanvas != null) { 
+                        int currentState = gameFrame.getGameCanvas().getCurrentState();
+                        CWriteOut.writeInt(currentState);
+                        CWriteOut.flush();
+                        System.out.println("WTS: Game State " + currentState); 
 
+                    }
+                    
+                    try {
+                        Thread.sleep(25); 
+                    
+                    } catch(InterruptedException ex) {
+                        System.out.println("InterruptedException form WriteToServer run()");
+                    }
+                }
+
+            } catch(IOException ex) {
+                System.out.println("IOException from WriteToServer run()");
+            }
         }
     }
 }

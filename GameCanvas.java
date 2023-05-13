@@ -76,8 +76,6 @@ public class GameCanvas extends JComponent implements KeyListener {
                     titlePage.currentOption = 0; 
                     repaint();
                 }
-
-            
             }
 
             if(getKeyPressed == KeyEvent.VK_UP) {
@@ -93,17 +91,21 @@ public class GameCanvas extends JComponent implements KeyListener {
             if(getKeyPressed == KeyEvent.VK_ENTER) {
                 if(titlePage.currentOption == 0) {
                     gameState = gameplayState; 
+                    //setCurrentState(3);
 
-                } else if(titlePage.currentOption == 1) {
+                /* } else if(titlePage.currentOption == 1) {
                     gameState = mechanicsState;
-                    repaint();
+                    repaint();*/
+                    
+                    //setCurrentState(1);
+                    
                     
 
                 } else if(titlePage.currentOption == 2) {
                     System.exit(0);
                 }
             }
-        } else if(gameState == mechanicsState) {
+        } /* else if(gameState == mechanicsState) {
             
             if(getKeyPressed == KeyEvent.VK_LEFT) {
                 mechanicsPage.setbackPressed(true);
@@ -115,21 +117,21 @@ public class GameCanvas extends JComponent implements KeyListener {
                 gameState = titleState;
                 repaint();
             }
-        }
+        } */
         
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-       
+        
     }
 
 
-    public int getCurrentState() {
+    public int getCurrentState() { // getX()
         return gameState;
     }
 
-    public void setCurrentState(int n) {
+    public void setCurrentState(int n) { // setX()
         gameState = n; 
     }
 

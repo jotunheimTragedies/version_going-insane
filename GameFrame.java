@@ -114,4 +114,8 @@ public class GameFrame {
         cp3.revalidate();
 
     }
+
+    public GameCanvas getGameCanvas() {
+        return gameCanvas; 
+    }
 }
