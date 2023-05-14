@@ -89,7 +89,7 @@ public class GameFrame {
                 int zeroMinutes = timerBomb.getMinutesLeft();
                 int zeroSeconds = timerBomb.getSecondsLeft();
                
-                if(zeroMinutes == 0 && zeroSeconds == 0) {
+                if((zeroMinutes == 0 && zeroSeconds == 0) || moduleCanvas.strikesModule.playerloses == true) {
                     gameCanvas.gameState = gameCanvas.gameoverState;
                     gameFrame.getContentPane().removeAll();
                     gameFrame.repaint();

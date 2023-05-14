@@ -1,70 +1,62 @@
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class ModuleCanvas extends JPanel {
     private int width; 
     private int height; 
 
-    //private SimonSays simonModule; 
-        // insert strikes here
-    //private Keypad keypadModule; 
-    //private SimonSaysManual simonManual;
+    private SimonSays simonModule; 
+    private Keypad keypadModule; 
+    private SimonSaysManual simonManual;
     private BombTimer bombTimer;
-    //private KeypadManual keypadManual;
+    private KeypadManual keypadManual;
+    public Strikes strikesModule;
+    public Timer timer;
 
     public ModuleCanvas(int w, int h) {
         width = w; 
         height = h; 
 
         bombTimer = new BombTimer();
-
         setLayout(new GridLayout(2, 3, 10, 10));
         setPreferredSize(new Dimension(width, height));
+
     }
 
     public void setUpModules() {
-    
-        JPanel redPanel = new JPanel();
-        redPanel.setBackground(Color.red);
-        add(redPanel);
 
-        JPanel orangePanel = new JPanel();
-        orangePanel.setBackground(Color.orange);
-        add(orangePanel);
+        simonModule = new SimonSays();
+        add(simonModule);
 
-        JPanel yellowPanel = new JPanel();
-        yellowPanel.setBackground(Color.yellow);
-        add(yellowPanel);
+        strikesModule = new Strikes();
+        add(strikesModule);
 
-        JPanel greenPanel = new JPanel();
-        greenPanel.setBackground(Color.green);
-        add(greenPanel);
+        keypadModule = new Keypad();
+        add(keypadModule);
+
+        simonManual = new SimonSaysManual();
+        add(simonManual);
 
         bombTimer = new BombTimer(); 
         add(bombTimer);  
 
-        JPanel bluePanel = new JPanel();
-        bluePanel.setBackground(Color.blue);
-        add(bluePanel);
-
-        /* simonModule = new SimonSays();
-        add(simonModule);   
-
-        fillerModule = new Filler();
-        add(fillerModule);
-
-        keypadModule = new Keypad();
-        add(keypadModule);       
-
-        simonManual = new SimonSaysManual();
-        add(simonManual);  */     
+        keypadManual = new KeypadManual();
+        add(keypadManual);   
         
-        // bombTimer = new BombTimer(); 
-        // add(bombTimer);  
+        
+        timer = new Timer(5, new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+                //constantly checks both modules if the player has made a mistake
+                strikesModule.strikechecker(simonModule.struck, keypadModule.struck, simonModule.u, keypadModule.u);
+                System.out.println(strikesModule.playerloses);
 
-        /* keypadManual = new KeypadManual();
-        add(keypadManual); */
+			}
+		});
+        timer.start();
+
     }
 
     public BombTimer getBombTimer() {

@@ -3,6 +3,7 @@
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 public class Player {
     private Socket clientSocket; 
@@ -26,7 +27,13 @@ public class Player {
 
     private void connectToServer() {
         try {
-            clientSocket = new Socket("localhost", 65000);
+            
+            Scanner console = new Scanner(System.in);
+            System.out.println("IP Address: ");
+            String ipAddress = console.nextLine();
+            System.out.println("Port Number: ");
+            int portNumber = Integer.parseInt(console.nextLine());
+            clientSocket = new Socket(ipAddress, portNumber); //portNumber must be 65000
 
             DataInputStream clientIn = new DataInputStream(clientSocket.getInputStream());
             DataOutputStream clientOut = new DataOutputStream(clientSocket.getOutputStream());

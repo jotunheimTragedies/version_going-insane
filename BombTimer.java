@@ -6,7 +6,6 @@ import java.text.*;
 
 
 public class BombTimer extends JPanel implements ModuleTemplate {
-    //private JPanel countdowPanel;
     private JLabel countdownLabel; 
     private Font tickingTimeBomb; 
     private Timer countdownTimer; 
