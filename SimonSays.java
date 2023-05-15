@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class SimonSays extends JPanel implements ActionListener, ModuleTemplate{
 
-    public int flashed, ticks, dark, i, u, indexPattern;
+    public int flashed, ticks, dark, i, u, indexPattern, k;
     public ArrayList<Integer> currentPattern;
 
     public JPanel backpanel, testpanel;
@@ -37,6 +37,7 @@ public class SimonSays extends JPanel implements ActionListener, ModuleTemplate{
         flashed = 0;
         ticks = 0;
         u = 0;
+        k = 0;
 
         random = new Random();
 
@@ -168,15 +169,22 @@ public class SimonSays extends JPanel implements ActionListener, ModuleTemplate{
 
     public void setUpComponents(){
     
+
+
     red = new JButton(redimage);
     red.addActionListener(new ActionListener(){  
         public void actionPerformed(ActionEvent e){  
                 red.setIcon(reddark);
                 red.setIcon(redimage);
+
+                if(k == 0){
+                    start();
+                    k++;
+                }
                 
                 if(currentPattern.get(indexPattern) == 1){
                     indexPattern++;
-                    System.out.println(indexPattern);
+                    //System.out.println(indexPattern);
                 }else{
                     SimonStrike = true;
                 }
@@ -194,7 +202,7 @@ public class SimonSays extends JPanel implements ActionListener, ModuleTemplate{
             yellow.setIcon(yellowimage);
             if(currentPattern.get(indexPattern) == 2){
                 indexPattern++;
-                System.out.println(indexPattern);
+                //System.out.println(indexPattern);
             }else{
                 SimonStrike = true;
             }
@@ -212,7 +220,7 @@ public class SimonSays extends JPanel implements ActionListener, ModuleTemplate{
             green.setIcon(greenimage);
             if(currentPattern.get(indexPattern) == 3){
                 indexPattern++;
-                System.out.println(indexPattern);
+                //System.out.println(indexPattern);
             }else{
                 SimonStrike = true;
             }
@@ -230,7 +238,7 @@ public class SimonSays extends JPanel implements ActionListener, ModuleTemplate{
             blue.setIcon(blueimage);
             if(currentPattern.get(indexPattern) == 4){
                 indexPattern++;
-                System.out.println(indexPattern);
+                //System.out.println(indexPattern);
             }else{
                 SimonStrike = true;
             }

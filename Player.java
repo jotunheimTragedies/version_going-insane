@@ -118,6 +118,7 @@ public class Player {
                         CWriteOut.writeInt(currentState);
                         CWriteOut.flush();
                         System.out.println("WTS: Game State " + currentState); 
+                        System.out.println("Over here in the Player class"); 
 
                     }
                     

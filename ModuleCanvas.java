@@ -8,8 +8,8 @@ public class ModuleCanvas extends JPanel {
     private int width; 
     private int height; 
 
-    private SimonSays simonModule; 
-    private Keypad keypadModule; 
+    public SimonSays simonModule; 
+    public Keypad keypadModule; 
     private SimonSaysManual simonManual;
     private BombTimer bombTimer;
     private KeypadManual keypadManual;
@@ -51,7 +51,7 @@ public class ModuleCanvas extends JPanel {
 			public void actionPerformed(ActionEvent e){
                 //constantly checks both modules if the player has made a mistake
                 strikesModule.strikechecker(simonModule.struck, keypadModule.struck, simonModule.u, keypadModule.u);
-                System.out.println(strikesModule.playerloses);
+                //System.out.println(strikesModule.playerloses);
 
 			}
 		});

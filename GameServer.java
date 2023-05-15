@@ -18,6 +18,7 @@ public class GameServer {
 
     private int p1GameState; 
     private int p2GameState; 
+    
 
     public GameServer() {
         System.out.println("---- GAME SERVER ----");
@@ -136,10 +137,12 @@ public class GameServer {
                         SWriteOut.writeInt(p2GameState);
                         SWriteOut.flush();
                         System.out.println("WTC: Game State " + p2GameState);
+                        System.out.println("Over here in the Server class"); 
                     
                     } else {
                         SWriteOut.writeInt(p1GameState);
                         System.out.println("WTC: Game State " + p1GameState);
+                        System.out.println("Over here in the Server class"); 
                     }
 
                     try {

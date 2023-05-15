@@ -44,11 +44,6 @@ public class Strikes extends JPanel {
         pairer2 = (simonnum == 2 && keypadnum == 2); //simon 1, keypad 2
         pairer3 = (simonnum == 3 && keypadnum == 1); //simon 2, keypad 1
 
-        System.out.println(simon);
-        System.out.println(keypad);
-        System.out.println(simonnum);
-        System.out.println(keypadnum);
-
         if(simon || keypad){
             if(simonnum == 2 || keypadnum == 1){
                 pic.setIcon(onestrike);
